@@ -1,6 +1,15 @@
 {
-  "originHash" : "ad75ae2d3b8d8b80d99635f65213a3c1092464aa54a86354f850b8317b6fa240",
+  "originHash" : "4623ea39ade6de0094255497e99c3828a09d1b8e0a47315a5701bac30cdaf24d",
   "pins" : [
+    {
+      "identity" : "autoequatable",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/indextrown/AutoEquatable",
+      "state" : {
+        "branch" : "main",
+        "revision" : "8070f812d97b91f79fbf362ca0581bba7fe09421"
+      }
+    },
     {
       "identity" : "kingfisher",
       "kind" : "remoteSourceControl",
@@ -8,6 +17,15 @@
       "state" : {
         "revision" : "d30a5fad881137e2267f96a8e3fc35c58999bb94",
         "version" : "8.6.2"
+      }
+    },
+    {
+      "identity" : "swift-syntax",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftlang/swift-syntax.git",
+      "state" : {
+        "revision" : "0687f71944021d616d34d922343dcef086855920",
+        "version" : "600.0.1"
       }
     }
   ],

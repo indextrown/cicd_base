@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DF6DC4072F1EA44600DE5D9A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = DF6DC4062F1EA44600DE5D9A /* Kingfisher */; };
+		DF6DC40A2F1EA51800DE5D9A /* AutoEquatable in Frameworks */ = {isa = PBXBuildFile; productRef = DF6DC4092F1EA51800DE5D9A /* AutoEquatable */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF6DC40A2F1EA51800DE5D9A /* AutoEquatable in Frameworks */,
 				DF6DC4072F1EA44600DE5D9A /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -98,6 +100,7 @@
 			name = cicd_base;
 			packageProductDependencies = (
 				DF6DC4062F1EA44600DE5D9A /* Kingfisher */,
+				DF6DC4092F1EA51800DE5D9A /* AutoEquatable */,
 			);
 			productName = cicd_base;
 			productReference = DF6DC2272F1E9BC600DE5D9A /* cicd_base.app */;
@@ -129,6 +132,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				DF6DC4052F1EA44600DE5D9A /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				DF6DC4082F1EA51800DE5D9A /* XCRemoteSwiftPackageReference "AutoEquatable" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DF6DC2282F1E9BC600DE5D9A /* Products */;
@@ -372,6 +376,14 @@
 				minimumVersion = 8.6.2;
 			};
 		};
+		DF6DC4082F1EA51800DE5D9A /* XCRemoteSwiftPackageReference "AutoEquatable" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/indextrown/AutoEquatable";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -379,6 +391,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DF6DC4052F1EA44600DE5D9A /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		DF6DC4092F1EA51800DE5D9A /* AutoEquatable */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DF6DC4082F1EA51800DE5D9A /* XCRemoteSwiftPackageReference "AutoEquatable" */;
+			productName = AutoEquatable;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
