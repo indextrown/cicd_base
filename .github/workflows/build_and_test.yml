@@ -5,6 +5,8 @@ on:
   # main 브랜치에 push 이벤트 발생시 workflow trigger
   push:
     branches: [ main ]
+    
+  workflow_dispatch:
 
 # workflow의 실행은 하나 이상의 job으로 구성 됨
 jobs:
@@ -19,7 +21,6 @@ jobs:
     steps:
     
     # uses 키워드를 통해 Github Actions에서 기본으로 제공하는 액션을 사용 가능. 아래 액션은 repository 에 체크아웃하는 것
-    
     # 1️⃣ 레포 체크아웃
     - name: Checkout
       uses: actions/checkout@v4
