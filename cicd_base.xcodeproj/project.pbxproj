@@ -10,10 +10,28 @@
 		DF6DC2272F1E9BC600DE5D9A /* cicd_base.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cicd_base.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		DF6DC2392F1EA01100DE5D9A /* Exceptions for "workflows" folder in "cicd_base" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				build_and_test.yml,
+			);
+			target = DF6DC2262F1E9BC600DE5D9A /* cicd_base */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		DF6DC2292F1E9BC600DE5D9A /* cicd_base */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = cicd_base;
+			sourceTree = "<group>";
+		};
+		DF6DC2362F1E9FF000DE5D9A /* workflows */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				DF6DC2392F1EA01100DE5D9A /* Exceptions for "workflows" folder in "cicd_base" target */,
+			);
+			path = workflows;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -32,6 +50,7 @@
 		DF6DC21E2F1E9BC600DE5D9A = {
 			isa = PBXGroup;
 			children = (
+				DF6DC2352F1E9FEC00DE5D9A /* .github */,
 				DF6DC2292F1E9BC600DE5D9A /* cicd_base */,
 				DF6DC2282F1E9BC600DE5D9A /* Products */,
 			);
@@ -43,6 +62,14 @@
 				DF6DC2272F1E9BC600DE5D9A /* cicd_base.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		DF6DC2352F1E9FEC00DE5D9A /* .github */ = {
+			isa = PBXGroup;
+			children = (
+				DF6DC2362F1E9FF000DE5D9A /* workflows */,
+			);
+			path = .github;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -261,6 +288,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -289,6 +317,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
