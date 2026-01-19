@@ -60,7 +60,7 @@ jobs:
             -scheme cicd_base \
             -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.5' \
             CODE_SIGNING_ALLOWED=NO \
-#            | xcpretty
+            | xcpretty
 
     
     
