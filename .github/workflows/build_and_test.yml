@@ -62,5 +62,13 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             | xcpretty
 
-    
-    
+    - name: Start xcode Test 🛠
+      run: |
+        set -o pipefail
+          xcodebuild clean test \
+            -project cicd_base.xcodeproj \
+            -scheme cicd_base \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.5' \
+            CODE_SIGNING_ALLOWED=NO \
+            | xcpretty
+
