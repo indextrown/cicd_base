@@ -61,7 +61,7 @@ jobs:
       - name: List available iOS simulators
         run: |
           echo "📱 Available iOS Simulators"
-          xcrun simctl list devices available \
+          xcrun simctl list devices available | \
           sed -n '/-- iOS /,/--/p' | \
           grep -E "iPhone|iPad"
 
