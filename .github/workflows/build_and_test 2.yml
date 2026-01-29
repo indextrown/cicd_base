@@ -63,7 +63,7 @@ jobs:
         run: sudo xcode-select -s /Applications/Xcode_16.2.app
 
       # ======================
-      # 🔒 4️⃣ Simulator UDID Resolve (정규식 + 1개 선택)
+      # 🔒 4️⃣ Simulator UDID Resolve (정규식 + 1개 고정)
       # ======================
       - name: Resolve simulator UDID
         run: |
@@ -90,15 +90,15 @@ jobs:
           echo "SIMULATOR_UDID=$UDID" >> $GITHUB_ENV
 
       # ======================
-      # 🔥 5️⃣ Simulator Warm-up
+      # 🔥 5️⃣ Simulator Warm-up (⚠️ UDID만 사용)
       # ======================
       - name: Warm up simulator
         run: |
-          echo "🔥 Warm-up iPhone 15 (iOS 17.5)"
+          echo "🔥 Warm-up simulator (UDID: $SIMULATOR_UDID)"
           xcodebuild \
             -project cicd_base.xcodeproj \
             -scheme cicd_base \
-            -destination "platform=iOS Simulator,name=iPhone 15,OS=17.5" \
+            -destination "platform=iOS Simulator,id=$SIMULATOR_UDID" \
             -showdestinations \
             > /dev/null
 
