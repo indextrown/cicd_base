@@ -96,8 +96,8 @@ jobs:
         run: |
           echo "🔥 Warm-up iPhone 15 (iOS 17.5)"
           xcodebuild \
-            -project PopPang.xcodeproj \
-            -scheme PopPang \
+            -project cicd_base.xcodeproj \
+            -scheme cicd_base \
             -destination "platform=iOS Simulator,name=iPhone 15,OS=17.5" \
             -showdestinations \
             > /dev/null
@@ -127,8 +127,8 @@ jobs:
         run: |
           set -o pipefail
           xcodebuild build-for-testing \
-            -project PopPang.xcodeproj \
-            -scheme PopPang \
+            -project cicd_base.xcodeproj \
+            -scheme cicd_base \
             -xcconfig Config.xcconfig \
             -destination "platform=iOS Simulator,id=$SIMULATOR_UDID" \
             -derivedDataPath DerivedData \
@@ -142,8 +142,8 @@ jobs:
         run: |
           set -o pipefail
           xcodebuild test-without-building \
-            -project PopPang.xcodeproj \
-            -scheme PopPang \
+            -project cicd_base.xcodeproj \
+            -scheme cicd_base \
             -xcconfig Config.xcconfig \
             -destination "platform=iOS Simulator,id=$SIMULATOR_UDID" \
             -derivedDataPath DerivedData \
@@ -157,8 +157,8 @@ jobs:
         run: |
           set -o pipefail
           xcodebuild test-without-building \
-            -project PopPang.xcodeproj \
-            -scheme PopPang \
+            -project cicd_base.xcodeproj \
+            -scheme cicd_base \
             -xcconfig Config.xcconfig \
             -destination "platform=iOS Simulator,id=$SIMULATOR_UDID" \
             -derivedDataPath DerivedData \
