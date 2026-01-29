@@ -29,6 +29,7 @@
 		DF6DC2392F1EA01100DE5D9A /* Exceptions for "workflows" folder in "cicd_base" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				"build_and_test 2.yml",
 				build_and_test.yml,
 			);
 			target = DF6DC2262F1E9BC600DE5D9A /* cicd_base */;
