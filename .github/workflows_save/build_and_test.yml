@@ -72,3 +72,4 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             | xcpretty
 
+     
