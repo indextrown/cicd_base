@@ -30,6 +30,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				"build_and_test 2.yml",
+				"build_and_test 3.yml",
 				build_and_test.yml,
 			);
 			target = DF6DC2262F1E9BC600DE5D9A /* cicd_base */;

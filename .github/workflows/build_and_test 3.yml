@@ -1,0 +1,166 @@
+# workflow 이름
+name: 팝팡 앱타겟 iOS17 빌드 & 테스트 v3
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "PR 번호(명령어 트리거일 때만 입력)"
+        required: false
+        default: ""
+      triggered_by_command:
+        description: "PR 명령어 트리거 여부"
+        required: false
+        default: "false"
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  ios-ci:
+    name: iOS Build & Test
+    runs-on: macos-14
+
+    steps:
+      # ======================
+      # 1️⃣ Checkout
+      # ======================
+      - name: Checkout PR branch
+        if: github.event.inputs.pr_number != ''
+        uses: actions/checkout@v4
+        with:
+          ref: refs/pull/${{ github.event.inputs.pr_number }}/head
+
+      - name: Checkout default branch
+        if: github.event.inputs.pr_number == ''
+        uses: actions/checkout@v4
+
+      # ======================
+      # 2️⃣ Cache
+      # ======================
+      - name: Cache DerivedData
+        uses: actions/cache@v4
+        with:
+          path: DerivedData
+          key: deriveddata-${{ runner.os }}-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            deriveddata-${{ runner.os }}-
+
+      - name: Cache SwiftPM
+        uses: actions/cache@v4
+        with:
+          path: ~/Library/Caches/org.swift.swiftpm
+          key: spm-${{ runner.os }}-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            spm-${{ runner.os }}-
+
+      # ======================
+      # 3️⃣ Xcode 선택
+      # ======================
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_16.2.app
+
+      # ======================
+      # 🔒 4️⃣ Simulator UDID Resolve (정규식 + 1개 고정)
+      # ======================
+      - name: Resolve simulator UDID
+        run: |
+          set -euo pipefail
+
+          SIMULATOR_NAME="iPhone 15"
+          SIMULATOR_OS="17.5"
+
+          echo "🔍 Resolving simulator: ${SIMULATOR_NAME} (iOS ${SIMULATOR_OS})"
+
+          UDID=$(xcrun simctl list devices available | \
+            grep "iOS ${SIMULATOR_OS}" -A 20 | \
+            grep "${SIMULATOR_NAME}" | \
+            head -n 1 | \
+            sed -E 's/.*\(([A-F0-9-]+)\).*/\1/')
+
+          if [ -z "$UDID" ]; then
+            echo "❌ Simulator not found"
+            xcrun simctl list devices available
+            exit 1
+          fi
+
+          echo "✅ Using simulator UDID: $UDID"
+          echo "SIMULATOR_UDID=$UDID" >> $GITHUB_ENV
+
+      # ======================
+      # 🔥 5️⃣ Simulator Warm-up (⚠️ id만 사용)
+      # ======================
+      - name: Warm up simulator
+        run: |
+          echo "🔥 Warm-up simulator (UDID: $SIMULATOR_UDID)"
+          xcodebuild \
+            -project cicd_base.xcodeproj \
+            -scheme cicd_base \
+            -destination "id=$SIMULATOR_UDID" \
+            -showdestinations \
+            > /dev/null
+
+      # ======================
+      # 6️⃣ Swift Macro 검증 해제
+      # ======================
+      - name: Disable Swift Macro fingerprint validation
+        run: defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
+
+      # ======================
+      # 7️⃣ Config.xcconfig 생성
+      # ======================
+      - name: Create Config.xcconfig
+        run: |
+          cat <<EOF > Config.xcconfig
+          KAKAO_NATIVE_APP_KEY = ${{ secrets.KAKAO_NATIVE_APP_KEY }}
+          GIDClientID = ${{ secrets.GIDClientID }}
+          GoogleURLScheme = ${{ secrets.GoogleURLScheme }}
+          NMFClientID = ${{ secrets.NMFClientID }}
+          EOF
+
+      # ======================
+      # 8️⃣ Build
+      # ======================
+      - name: Build for testing
+        run: |
+          set -o pipefail
+          xcodebuild build-for-testing \
+            -project cicd_base.xcodeproj \
+            -scheme cicd_base \
+            -xcconfig Config.xcconfig \
+            -destination "id=$SIMULATOR_UDID" \
+            -derivedDataPath DerivedData \
+            CODE_SIGNING_ALLOWED=NO \
+            | xcpretty
+
+      # ======================
+      # 9️⃣ Unit Test
+      # ======================
+      - name: Run Unit Tests
+        run: |
+          set -o pipefail
+          xcodebuild test-without-building \
+            -project cicd_base.xcodeproj \
+            -scheme cicd_base \
+            -xcconfig Config.xcconfig \
+            -destination "id=$SIMULATOR_UDID" \
+            -derivedDataPath DerivedData \
+            -only-testing:RepositoryTest \
+            | xcpretty
+
+      # ======================
+      # 🔟 UI Test
+      # ======================
+      - name: Run UI Tests
+        run: |
+          set -o pipefail
+          xcodebuild test-without-building \
+            -project cicd_base.xcodeproj \
+            -scheme cicd_base \
+            -xcconfig Config.xcconfig \
+            -destination "id=$SIMULATOR_UDID" \
+            -derivedDataPath DerivedData \
+            -only-testing:PopPangUITests \
+            | xcpretty
