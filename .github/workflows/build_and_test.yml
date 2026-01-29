@@ -56,13 +56,19 @@ jobs:
       # CI에서 사용할 Xcode 버전을 고정합니다.
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode_16.2.app
+        
+      # 현재 CI 환경에 설치된 iOS 시뮬레이터 목록을 출력합니다.
+      - name: List available iOS simulators
+        run: |
+          echo "📱 Available iOS Simulators"
+          xcrun simctl list devices available
 
       # 지정한 이름 / iOS 버전에 맞는 시뮬레이터의 UDID를 찾아 환경변수로 설정합니다.
       - name: Resolve simulator UDID
         run: |
           set -euo pipefail
 
-          SIMULATOR_NAME="iPhone 15"
+          SIMULATOR_NAME="iPhone 15 Pro"
           SIMULATOR_OS="17.5"
 
           echo "🔍 Resolving simulator: ${SIMULATOR_NAME} (iOS ${SIMULATOR_OS})"
