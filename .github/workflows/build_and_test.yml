@@ -68,8 +68,8 @@ jobs:
         run: |
           set -euo pipefail
 
-          SIMULATOR_NAME="iPhone 15 Pro"
-          SIMULATOR_OS="17.5"
+          SIMULATOR_NAME="iPhone 15 Pro Max"
+          SIMULATOR_OS="17.0"
 
           echo "🔍 Resolving simulator: ${SIMULATOR_NAME} (iOS ${SIMULATOR_OS})"
 
