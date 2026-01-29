@@ -61,21 +61,23 @@ jobs:
       - name: List available iOS simulators
         run: |
           echo "📱 Available iOS Simulators"
-          xcrun simctl list devices available
+          xcrun simctl list devices available \
+          sed -n '/-- iOS /,/--/p' | \
+          grep -E "iPhone|iPad"
 
       # 지정한 이름 / iOS 버전에 맞는 시뮬레이터의 UDID를 찾아 환경변수로 설정합니다.
       - name: Resolve simulator UDID
         run: |
           set -euo pipefail
 
-          SIMULATOR_NAME="iPhone 15 Pro Max"
+          SIMULATOR_NAME="iPhone 15"
           SIMULATOR_OS="17.0"
 
           echo "🔍 Resolving simulator: ${SIMULATOR_NAME} (iOS ${SIMULATOR_OS})"
 
           UDID=$(xcrun simctl list devices available | \
             grep "iOS ${SIMULATOR_OS}" -A 20 | \
-            grep "${SIMULATOR_NAME}" | \
+            grep "^ *${SIMULATOR_NAME} (" | \
             head -n 1 | \
             sed -E 's/.*\(([A-F0-9-]+)\).*/\1/')
 
