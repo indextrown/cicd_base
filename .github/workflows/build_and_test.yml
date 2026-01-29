@@ -61,9 +61,7 @@ jobs:
       - name: List available iOS simulators
         run: |
           echo "📱 Available iOS Simulators"
-          xcrun simctl list devices available | \
-          sed -n '/-- iOS /,/--/p' | \
-          grep -E "iPhone|iPad"
+          xcrun simctl list devices available
 
       # 지정한 이름 / iOS 버전에 맞는 시뮬레이터의 UDID를 찾아 환경변수로 설정합니다.
       - name: Resolve simulator UDID
