@@ -1,74 +1,147 @@
 # workflow 이름
-name: iOS7 빌드 & 테스트
+name: 팝팡 앱타겟 iOS17 빌드 & 테스트 v3
 
 on:
-  # main 브랜치에 push 이벤트 발생시 workflow trigger
-  push:
-    branches: [ main ]
-    
   workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "PR 번호(명령어 트리거일 때만 입력)"
+        required: false
+        default: ""
+      triggered_by_command:
+        description: "PR 명령어 트리거 여부"
+        required: false
+        default: "false"
 
-# workflow의 실행은 하나 이상의 job으로 구성 됨
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
 jobs:
-
-  # 이 workflow 는 "build" 라는 single job 으로 구성
-  build:
-  
-    # job이 실행될 환경 - 최신 mac os
+  ios-ci:
+    name: iOS Build & Test
     runs-on: macos-14
-    
-    # step은 job의 일부로 실행될 일련의 task들을 나타냄
+
     steps:
-    
-    # uses 키워드를 통해 Github Actions에서 기본으로 제공하는 액션을 사용 가능. 아래 액션은 repository 에 체크아웃하는 것
-    # 1️⃣ 레포 체크아웃
-    - name: Checkout
-      uses: actions/checkout@v4
-      
-    
-    # ======================================
-    # 2️⃣ SwiftPM + Xcode DerivedData 캐시
-    # - SPM 의존성 다운로드 결과
-    # - swift-syntax / Macro 빌드 결과 캐시
-    # - Package.resolved 기준으로 캐시 무효화
-    # ======================================
-    - name: Cache SPM & DerivedData
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/.swiftpm
-          ~/Library/Developer/Xcode/DerivedData
-        key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
-        restore-keys: |
-          ${{ runner.os }}-spm-
-    
-    # 3️⃣ Xcode 선택
-    - name: Select Xcode
-      run: sudo xcode-select -s /Applications/Xcode_16.2.app
-      
-    # 5️⃣ Swift Macro 검증 해제
-    - name: Disable Swift Macro fingerprint validation
-      run: |
-        defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
+      # PR 번호가 있으면 해당 PR 브랜치로, 없으면 기본 브랜치로 체크아웃합니다.
+      - name: Checkout PR branch
+        if: github.event.inputs.pr_number != ''
+        uses: actions/checkout@v4
+        with:
+          ref: refs/pull/${{ github.event.inputs.pr_number }}/head
 
-    # 6️⃣ 빌드 & 테스트
-    - name: Start xcode build 🛠
-      run: |
-        set -o pipefail
-          xcodebuild clean build \
+      - name: Checkout default branch
+        if: github.event.inputs.pr_number == ''
+        uses: actions/checkout@v4
+
+      # Xcode 컴파일 결과를 재사용하기 위해 DerivedData 캐시합니다.
+      - name: Cache DerivedData
+        uses: actions/cache@v4
+        with:
+          path: DerivedData
+          key: deriveddata-${{ runner.os }}-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            deriveddata-${{ runner.os }}-
+
+      # Swift Package Manaer 의존성 다운로드 결과를 캐시합니다.
+      - name: Cache SwiftPM
+        uses: actions/cache@v4
+        with:
+          path: ~/Library/Caches/org.swift.swiftpm
+          key: spm-${{ runner.os }}-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            spm-${{ runner.os }}-
+
+      # CI에서 사용할 Xcode 버전을 고정합니다.
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_16.2.app
+
+      # 지정한 이름 / iOS 버전에 맞는 시뮬레이터의 UDID를 찾아 환경변수로 설정합니다.
+      - name: Resolve simulator UDID
+        run: |
+          set -euo pipefail
+
+          SIMULATOR_NAME="iPhone 15"
+          SIMULATOR_OS="17.5"
+
+          echo "🔍 Resolving simulator: ${SIMULATOR_NAME} (iOS ${SIMULATOR_OS})"
+
+          UDID=$(xcrun simctl list devices available | \
+            grep "iOS ${SIMULATOR_OS}" -A 20 | \
+            grep "${SIMULATOR_NAME}" | \
+            head -n 1 | \
+            sed -E 's/.*\(([A-F0-9-]+)\).*/\1/')
+
+          if [ -z "$UDID" ]; then
+            echo "❌ Simulator not found"
+            xcrun simctl list devices available
+            exit 1
+          fi
+
+          echo "✅ Using simulator UDID: $UDID"
+          echo "SIMULATOR_UDID=$UDID" >> $GITHUB_ENV
+
+      # 살제 테스트 전에 시뮬레이터를 미리 깨워 초기 지연을 방지합니다.
+      - name: Warm up simulator
+        run: |
+          echo "🔥 Warm-up simulator (UDID: $SIMULATOR_UDID)"
+          xcodebuild \
             -project cicd_base.xcodeproj \
             -scheme cicd_base \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.5' \
+            -destination "id=$SIMULATOR_UDID" \
+            -showdestinations \
+            > /dev/null
+
+      # CI에서 Swift Macro 신뢰 단계 확인을 건너뜁니다.
+      - name: Disable Swift Macro fingerprint validation
+        run: defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
+
+      # CI에만 사용하는 설정 파일을 만들고 시크릿 키들을 주입합니다.
+      - name: Create Config.xcconfig
+        run: |
+          cat <<EOF > Config.xcconfig
+          KAKAO_NATIVE_APP_KEY = ${{ secrets.KAKAO_NATIVE_APP_KEY }}
+          GIDClientID = ${{ secrets.GIDClientID }}
+          GoogleURLScheme = ${{ secrets.GoogleURLScheme }}
+          NMFClientID = ${{ secrets.NMFClientID }}
+          EOF
+
+      # 빌드를 수행합니다.
+      - name: Build for testing
+        run: |
+          set -o pipefail
+          xcodebuild build-for-testing \
+            -project cicd_base.xcodeproj \
+            -scheme cicd_base \
+            -xcconfig Config.xcconfig \
+            -destination "id=$SIMULATOR_UDID" \
+            -derivedDataPath DerivedData \
             CODE_SIGNING_ALLOWED=NO \
             | xcpretty
 
-    - name: Start xcode Test 🛠
-      run: |
-        set -o pipefail
-          xcodebuild clean test \
+      # (빌드된 결과를 사용해)유닛 테스트를 수행합니다.
+      - name: Run Unit Tests
+        run: |
+          set -o pipefail
+          xcodebuild test-without-building \
             -project cicd_base.xcodeproj \
             -scheme cicd_base \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.5' \
-            CODE_SIGNING_ALLOWED=NO \
+            -xcconfig Config.xcconfig \
+            -destination "id=$SIMULATOR_UDID" \
+            -derivedDataPath DerivedData \
+            -only-testing:cicd_baseUnitTests \
             | xcpretty
 
+      # (빌드된 결과를 사용해)UI 테스트를 실행합니다.
+      - name: Run UI Tests
+        run: |
+          set -o pipefail
+          xcodebuild test-without-building \
+            -project cicd_base.xcodeproj \
+            -scheme cicd_base \
+            -xcconfig Config.xcconfig \
+            -destination "id=$SIMULATOR_UDID" \
+            -derivedDataPath DerivedData \
+            -only-testing:cicd_baseUITests \
+            | xcpretty

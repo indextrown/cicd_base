@@ -11,6 +11,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		DF1C46AB2F2B358900AB14C6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DF6DC21F2F1E9BC600DE5D9A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DF6DC2262F1E9BC600DE5D9A;
+			remoteInfo = cicd_base;
+		};
 		DF6DC4312F1EACA700DE5D9A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DF6DC21F2F1E9BC600DE5D9A /* Project object */;
@@ -21,23 +28,22 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DF1C46A52F2B358900AB14C6 /* cicd_baseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = cicd_baseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF6DC2272F1E9BC600DE5D9A /* cicd_base.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cicd_base.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF6DC42D2F1EACA700DE5D9A /* cicd_baseUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = cicd_baseUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		DF6DC2392F1EA01100DE5D9A /* Exceptions for "workflows" folder in "cicd_base" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"build_and_test 2.yml",
-				"build_and_test 3.yml",
-				build_and_test.yml,
-			);
-			target = DF6DC2262F1E9BC600DE5D9A /* cicd_base */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		DF1C46A62F2B358900AB14C6 /* cicd_baseUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = cicd_baseUITests;
+			sourceTree = "<group>";
+		};
+		DF1C46B32F2B35C400AB14C6 /* workflows_save */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = workflows_save;
+			sourceTree = "<group>";
+		};
 		DF6DC2292F1E9BC600DE5D9A /* cicd_base */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = cicd_base;
@@ -45,9 +51,6 @@
 		};
 		DF6DC2362F1E9FF000DE5D9A /* workflows */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				DF6DC2392F1EA01100DE5D9A /* Exceptions for "workflows" folder in "cicd_base" target */,
-			);
 			path = workflows;
 			sourceTree = "<group>";
 		};
@@ -59,6 +62,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		DF1C46A22F2B358900AB14C6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DF6DC2242F1E9BC600DE5D9A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -83,6 +93,7 @@
 				DF6DC2352F1E9FEC00DE5D9A /* .github */,
 				DF6DC2292F1E9BC600DE5D9A /* cicd_base */,
 				DF6DC42E2F1EACA700DE5D9A /* cicd_baseUnitTests */,
+				DF1C46A62F2B358900AB14C6 /* cicd_baseUITests */,
 				DF6DC2282F1E9BC600DE5D9A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -92,6 +103,7 @@
 			children = (
 				DF6DC2272F1E9BC600DE5D9A /* cicd_base.app */,
 				DF6DC42D2F1EACA700DE5D9A /* cicd_baseUnitTests.xctest */,
+				DF1C46A52F2B358900AB14C6 /* cicd_baseUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -99,6 +111,7 @@
 		DF6DC2352F1E9FEC00DE5D9A /* .github */ = {
 			isa = PBXGroup;
 			children = (
+				DF1C46B32F2B35C400AB14C6 /* workflows_save */,
 				DF6DC2362F1E9FF000DE5D9A /* workflows */,
 			);
 			path = .github;
@@ -107,6 +120,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		DF1C46A42F2B358900AB14C6 /* cicd_baseUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DF1C46AF2F2B358900AB14C6 /* Build configuration list for PBXNativeTarget "cicd_baseUITests" */;
+			buildPhases = (
+				DF1C46A12F2B358900AB14C6 /* Sources */,
+				DF1C46A22F2B358900AB14C6 /* Frameworks */,
+				DF1C46A32F2B358900AB14C6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DF1C46AC2F2B358900AB14C6 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				DF1C46A62F2B358900AB14C6 /* cicd_baseUITests */,
+			);
+			name = cicd_baseUITests;
+			packageProductDependencies = (
+			);
+			productName = cicd_baseUITests;
+			productReference = DF1C46A52F2B358900AB14C6 /* cicd_baseUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		DF6DC2262F1E9BC600DE5D9A /* cicd_base */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DF6DC2322F1E9BC700DE5D9A /* Build configuration list for PBXNativeTarget "cicd_base" */;
@@ -163,6 +199,10 @@
 				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
+					DF1C46A42F2B358900AB14C6 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = DF6DC2262F1E9BC600DE5D9A;
+					};
 					DF6DC2262F1E9BC600DE5D9A = {
 						CreatedOnToolsVersion = 16.4;
 					};
@@ -191,11 +231,19 @@
 			targets = (
 				DF6DC2262F1E9BC600DE5D9A /* cicd_base */,
 				DF6DC42C2F1EACA700DE5D9A /* cicd_baseUnitTests */,
+				DF1C46A42F2B358900AB14C6 /* cicd_baseUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		DF1C46A32F2B358900AB14C6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DF6DC2252F1E9BC600DE5D9A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -213,6 +261,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		DF1C46A12F2B358900AB14C6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DF6DC2232F1E9BC600DE5D9A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -230,6 +285,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		DF1C46AC2F2B358900AB14C6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DF6DC2262F1E9BC600DE5D9A /* cicd_base */;
+			targetProxy = DF1C46AB2F2B358900AB14C6 /* PBXContainerItemProxy */;
+		};
 		DF6DC4322F1EACA700DE5D9A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DF6DC2262F1E9BC600DE5D9A /* cicd_base */;
@@ -238,6 +298,40 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		DF1C46AD2F2B358900AB14C6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LGX4B4WC66;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.indextrown.cicd-baseUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = cicd_base;
+			};
+			name = Debug;
+		};
+		DF1C46AE2F2B358900AB14C6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LGX4B4WC66;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.indextrown.cicd-baseUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = cicd_base;
+			};
+			name = Release;
+		};
 		DF6DC2302F1E9BC700DE5D9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -458,6 +552,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		DF1C46AF2F2B358900AB14C6 /* Build configuration list for PBXNativeTarget "cicd_baseUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DF1C46AD2F2B358900AB14C6 /* Debug */,
+				DF1C46AE2F2B358900AB14C6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		DF6DC2222F1E9BC600DE5D9A /* Build configuration list for PBXProject "cicd_base" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

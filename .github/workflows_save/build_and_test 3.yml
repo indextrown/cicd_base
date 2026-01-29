@@ -147,7 +147,7 @@ jobs:
             -xcconfig Config.xcconfig \
             -destination "id=$SIMULATOR_UDID" \
             -derivedDataPath DerivedData \
-            -only-testing:RepositoryTest \
+            -only-testing:cicd_baseUnitTests \
             | xcpretty
 
       # ======================
