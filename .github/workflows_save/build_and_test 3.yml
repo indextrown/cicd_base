@@ -19,6 +19,13 @@ permissions:
   pull-requests: write
 
 jobs:
+
+  version-check:
+    name: 배포 버전 검증
+    runs-on: ubuntu-latest
+    steps:
+      - name: 배포 버전 검증
+        run: echo "✅ version check"
   ios-ci:
     name: iOS Build & Test
     runs-on: macos-14
